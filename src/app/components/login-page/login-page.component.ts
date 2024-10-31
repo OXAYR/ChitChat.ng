@@ -1,3 +1,4 @@
+import { LoginService } from './../../services/login.service';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -9,12 +10,21 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './login-page.component.css',
 })
 export class LoginPageComponent {
-  email: string = '';
-  password: string = '';
+  loginData = {
+    email: '',
+    password: '',
+  };
+
+  constructor(private loginService: LoginService) {}
 
   login() {
-    console.log('email:', this.email);
-    console.log('Password:', this.password);
-    // Add further login logic here
+    this.loginService.validateUserData(this.loginData).subscribe(
+      (response) => {
+        console.log('Login successful', response);
+      },
+      (error) => {
+        console.error('Error signing up', error);
+      }
+    );
   }
 }

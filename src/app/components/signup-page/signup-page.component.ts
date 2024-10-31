@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { singUpService } from '../../services/signup.service';
 
 @Component({
   selector: 'app-signup-page',
@@ -9,14 +10,22 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './signup-page.component.css',
 })
 export class SignupPageComponent {
-  email: string = '';
-  password: string = '';
-  userName: string = '';
+  userData = {
+    email: '',
+    password: '',
+    name: '',
+  };
 
-  login() {
-    console.log('email:', this.email);
-    console.log('Password:', this.password);
-    console.log('Password:', this.userName);
-    // Add further login logic here
+  constructor(private singUpService: singUpService) {}
+
+  signUp() {
+    this.singUpService.createUserData(this.userData).subscribe(
+      (response) => {
+        console.log('Sign-up successful', response);
+      },
+      (error) => {
+        console.error('Error signing up', error);
+      }
+    );
   }
 }
